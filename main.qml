@@ -17,6 +17,8 @@ ApplicationWindow {
 
         Page2Form {
         }
+
+
     }
 
     footer: TabBar {
@@ -29,5 +31,7 @@ ApplicationWindow {
         TabButton {
             text: qsTr("Page 2")
         }
+
+
     }
 }
