@@ -1,9 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>Page1Form.ui.qml</file>
-        <file>Page2Form.ui.qml</file>
+        <file>Page1Form.qml</file>
+        <file>Page2Form.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>assets/svg/w_q.svg</file>
     </qresource>
 </RCC>

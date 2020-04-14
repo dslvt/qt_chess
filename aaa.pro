@@ -14,7 +14,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        mainwindow.cpp \
+        tile.cpp \
+        validation.cpp
 
 RESOURCES += qml.qrc
 QT+=svg 
@@ -29,3 +32,43 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    mainwindow.h \
+    tile.h \
+    validation.h
+
+FORMS += \
+    mainwindow.ui
+
+DISTFILES += \
+    Images/bishop_black.svg \
+    Images/bishop_white.svg \
+    Images/exp.png \
+    Images/king_black.svg \
+    Images/king_white.svg \
+    Images/knight_black.svg \
+    Images/knight_white.svg \
+    Images/pawn_black.svg \
+    Images/pawn_white.svg \
+    Images/profile.png \
+    Images/queen_black.svg \
+    Images/queen_white.svg \
+    Images/rook_black.svg \
+    Images/rook_white.svg \
+    assets/bishop_black.svg \
+    assets/bishop_white.svg \
+    assets/exp.png \
+    assets/king_black.svg \
+    assets/king_white.svg \
+    assets/knight_black.svg \
+    assets/knight_white.svg \
+    assets/pawn_black.svg \
+    assets/pawn_white.svg \
+    assets/profile.png \
+    assets/queen_black.svg \
+    assets/queen_white.svg \
+    assets/rook_black.svg \
+    assets/rook_white.svg \
+    assets/svg/king_b.svg \
+    assets/svg/king_w.svg
