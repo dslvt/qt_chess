@@ -24,17 +24,17 @@ void Tile::display(char elem)
     {
         switch(elem)
         {
-            case 'P': this->setPixmap(QPixmap("file:///assets/pawn_white.svg"));
+            case 'P': this->setPixmap(QPixmap(":/pawn_white.svg"));
                       break;
-            case 'R': this->setPixmap(QPixmap("file:assets/rook_white.svg"));
+            case 'R': this->setPixmap(QPixmap(":/rook_white.svg"));
                       break;
-            case 'H': this->setPixmap(QPixmap("./assets:/assets/knight_white.svg"));
+            case 'H': this->setPixmap(QPixmap(":/knight_white.svg"));
                       break;
-            case 'K': this->setPixmap(QPixmap("/assets/king_white.svg"));
+            case 'K': this->setPixmap(QPixmap(":/king_white.svg"));
                       break;
-            case 'Q': this->setPixmap(QPixmap("aaa/android/assets/queen_white.svg"));
+            case 'Q': this->setPixmap(QPixmap(":/queen_white.svg"));
                       break;
-            case 'B': this->setPixmap(QPixmap("aaa/android/assets/assets/bishop_white.svg"));
+            case 'B': this->setPixmap(QPixmap(":/bishop_white.svg"));
                       break;
         }
     }
@@ -43,17 +43,17 @@ void Tile::display(char elem)
     {
         switch(elem)
         {
-        case 'P': this->setPixmap(QPixmap(":/assets/pawn_black.svg"));
+        case 'P': this->setPixmap(QPixmap(":/pawn_black.svg"));
                   break;
-        case 'R': this->setPixmap(QPixmap("assets/rook_black.svg"));
+        case 'R': this->setPixmap(QPixmap(":/rook_black.svg"));
                   break;
-        case 'H': this->setPixmap(QPixmap("assets/knight_black.svg"));
+        case 'H': this->setPixmap(QPixmap(":/knight_black.svg"));
                   break;
-        case 'K': this->setPixmap(QPixmap("assets/king_black.svg"));
+        case 'K': this->setPixmap(QPixmap(":/king_black.svg"));
                   break;
-        case 'Q': this->setPixmap(QPixmap("assets/queen_black.svg"));
+        case 'Q': this->setPixmap(QPixmap(":/queen_black.svg"));
                   break;
-        case 'B': this->setPixmap(QPixmap("assets/bishop_black.svg"));
+        case 'B': this->setPixmap(QPixmap(":/bishop_black.svg"));
                   break;
         }
     }

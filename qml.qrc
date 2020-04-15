@@ -5,4 +5,19 @@
         <file>Page2Form.qml</file>
         <file>qtquickcontrols2.conf</file>
     </qresource>
+    <qresource>
+	<file alias="bishop_black.svg">assets/bishop_black.svg</file>
+	<file alias="bishop_white.svg">assets/bishop_white.svg</file>
+	<file alias="king_black.svg">assets/king_black.svg</file>
+	<file alias="king_white.svg">assets/king_white.svg</file>
+	<file alias="knight_black.svg">assets/knight_black.svg</file>
+	<file alias="knight_white.svg">assets/knight_white.svg</file>
+	<file alias="pawn_black.svg">assets/pawn_black.svg</file>
+	<file alias="pawn_white.svg">assets/pawn_white.svg</file>
+	<file alias="queen_black.svg">assets/queen_black.svg</file>
+	<file alias="queen_white.svg">assets/queen_white.svg</file>
+	<file alias="rook_black.svg">assets/rook_black.svg</file>
+	<file alias="rook_white.svg">assets/rook_white.svg</file>
+
+    </qresource>
 </RCC>
