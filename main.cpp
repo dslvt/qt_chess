@@ -60,17 +60,17 @@ void chessBoard(QWidget *baseWidget, Tile *tile[8][8])
 
     //borderDisplay
     {
-    border[0]->outline(baseWidget,330,105,0);
-    border[1]->outline(baseWidget,330,637,0);
-    border[2]->outline(baseWidget,330,125,1);
-    border[2]->outline(baseWidget,862,125,1);
+    border[0]->outline(baseWidget,80,105,0);
+    border[1]->outline(baseWidget,80,637,0);
+    border[2]->outline(baseWidget,80,125,1);
+    border[2]->outline(baseWidget,612,125,1);
     }
 
     //Create 64 tiles (allocating memories to the objects of Tile class)
     ver=125;
     for(i=0;i<8;i++)
     {
-        hor=350;
+        hor=100;
         for(j=0;j<8;j++)
         {
             tile[i][j] = new Tile(baseWidget);
@@ -149,7 +149,7 @@ int main(int argc, char *argv[])
     QWidget *myWidget = new QWidget();
     myWidget->setGeometry(0,0,1370,700);
 
-    accessories(myWidget);
+    //accessories(myWidget);
     chessBoard(myWidget,tile);
 
     myWidget->show();
