@@ -2,6 +2,14 @@
 #include "mainwindow.h"
 #include "tile.h"
 
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
+
+#include <src/gameengine.hpp>
+
+
 int count=0,turn=1,expp[60],max=0;
 int wR,wC,bR,bC;
 Tile *click1;
@@ -144,15 +152,19 @@ void chessBoard(QWidget *baseWidget, Tile *tile[8][8])
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    QWidget *myWidget = new QWidget();
-    myWidget->setGeometry(0,0,1370,700);
+    QQmlApplicationEngine engine;
 
-    //accessories(myWidget);
-    chessBoard(myWidget,tile);
+  #ifdef QT_DEBUG
+    engine.rootContext()->setContextProperty("debug", true);
+  #else
+    engine.rootContext()->setContextProperty("debug", false);
+  #endif
 
-    myWidget->show();
-    return a.exec();
+    engine.rootContext()->setContextProperty("GameEngine", new GameEngine);
+    engine.load(QUrl(QStringLiteral("qrc:/qml/Window.qml")));
+
+    return app.exec();
 }
 

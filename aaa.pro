@@ -16,6 +16,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
+        src/chess.cpp \
+        src/chessmodel.cc \
+        src/figurebishop.cc \
+        src/figureintf.cc \
+        src/figureking.cc \
+        src/figureknight.cc \
+        src/figurepawn.cc \
+        src/figurequeen.cc \
+        src/figurerook.cc \
+        src/gameengine.cc \
+        src/historymanager.cc \
+        src/historymodel.cc \
+        src/movepawn.cc \
+        src/movepoints.cc \
+        src/movevectors.cc \
         tile.cpp \
         validation.cpp
 
@@ -35,6 +50,20 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     mainwindow.h \
+    src/chessmodel.hpp \
+    src/figurebishop.hpp \
+    src/figureintf.hpp \
+    src/figureking.hpp \
+    src/figureknight.hpp \
+    src/figurepawn.hpp \
+    src/figurequeen.hpp \
+    src/figurerook.hpp \
+    src/gameengine.hpp \
+    src/historymanager.hpp \
+    src/historymodel.hpp \
+    src/movepawn.hpp \
+    src/movepoints.hpp \
+    src/movevectors.hpp \
     tile.h \
     validation.h
 
@@ -71,4 +100,9 @@ DISTFILES += \
     assets/rook_black.svg \
     assets/rook_white.svg \
     assets/svg/king_b.svg \
-    assets/svg/king_w.svg
+    assets/svg/king_w.svg \
+    qml/Board.qml \
+    qml/ChessFigure.qml \
+    qml/GameFDialog.qml \
+    qml/History.qml \
+    qml/Window.qml

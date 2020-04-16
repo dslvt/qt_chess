@@ -1,37 +1,42 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.14
 
 ApplicationWindow {
+    id: applicationWindow
     visible: true
-    width: 640
-    height: 480
-    title: qsTr("Tabs")
+    width: 720
+    height: 1280
+    title: qsTr("Menu")
 
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        currentIndex: tabBar.currentIndex
-
-        Page1Form {
+    ColumnLayout{
+        width: parent.width
+        height: parent.height
+        clip: false
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        Layout.alignment: Qt.AlignCenter
+        spacing: 0
+        TextField {
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            horizontalAlignment: Text.AlignLeft
+            placeholderText: "Match ID"
         }
-
-        Page2Form {
-        }
-
-
+    Button{
+        Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+        text: "Find match"
+        Layout.rowSpan: 1
+        transformOrigin: Item.Center
+        Layout.fillHeight: false
+        Layout.fillWidth: false
     }
-
-    footer: TabBar {
-        id: tabBar
-        currentIndex: swipeView.currentIndex
-
-        TabButton {
-            text: qsTr("Page 1")
-        }
-        TabButton {
-            text: qsTr("Page 2")
-        }
-
-
+    Button{
+        Layout.alignment: Qt.AlignCenter
+        text: "Play with bot"
+    }
+    Button{
+        Layout.alignment: Qt.AlignCenter
+        text: "View previous matches"
+    }
     }
 }
