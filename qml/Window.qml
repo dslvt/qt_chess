@@ -4,12 +4,7 @@ import QtQuick.Controls 1.2
 
 import com.znocpmp.chess 1.0
 
-ApplicationWindow {
-    title: "Title"
-    width: 640
-    height: 480
-    visible: true
-
+Component{
     ColumnLayout {
         id: columnLayout1
         anchors.rightMargin: 0
@@ -22,23 +17,23 @@ ApplicationWindow {
 
         RowLayout {
             id: rowLayout1
-            x: 311
-            y: 56
-            width: 100
-            height: 100
+           // x: 311
+           // y: 56
+          //  width: 100
+          //  height: 100
             Layout.fillHeight: true
             Layout.fillWidth: true
 
             Button {
                 id: button1
-                x: 145
-                y: 93
+               // x: 145
+               // y: 93
             }
 
             Button {
                 id: button2
-                x: 243
-                y: 93
+               // x: 243
+               // y: 93
 
                GameFDialog {
                    id: dialog
@@ -71,17 +66,20 @@ ApplicationWindow {
 
         RowLayout {
             id: rowLayout2
-            x: 333
-            y: 222
-            width: 100
-            height: 100
+           // x: 333
+           // y: 222
+           // width: 100
+           // height: 100
             Layout.fillHeight: true
             Layout.fillWidth: true
 
 
             Board {
                 id: board1
+                width: rowLayout2.width * 0.8
+                height: width
                 Layout.fillHeight: true
+
                 Layout.fillWidth: true
 
                 Layout.alignment: Qt.AlignLeft

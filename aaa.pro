@@ -15,7 +15,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp \
         src/chess.cpp \
         src/chessmodel.cc \
         src/figurebishop.cc \
@@ -30,9 +29,7 @@ SOURCES += \
         src/historymodel.cc \
         src/movepawn.cc \
         src/movepoints.cc \
-        src/movevectors.cc \
-        tile.cpp \
-        validation.cpp
+        src/movevectors.cc
 
 RESOURCES += qml.qrc
 QT+=svg 
@@ -49,7 +46,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    mainwindow.h \
     src/chessmodel.hpp \
     src/figurebishop.hpp \
     src/figureintf.hpp \
@@ -63,12 +59,8 @@ HEADERS += \
     src/historymodel.hpp \
     src/movepawn.hpp \
     src/movepoints.hpp \
-    src/movevectors.hpp \
-    tile.h \
-    validation.h
+    src/movevectors.hpp
 
-FORMS += \
-    mainwindow.ui
 
 DISTFILES += \
     Images/bishop_black.svg \
@@ -85,22 +77,6 @@ DISTFILES += \
     Images/queen_white.svg \
     Images/rook_black.svg \
     Images/rook_white.svg \
-    assets/bishop_black.svg \
-    assets/bishop_white.svg \
-    assets/exp.png \
-    assets/king_black.svg \
-    assets/king_white.svg \
-    assets/knight_black.svg \
-    assets/knight_white.svg \
-    assets/pawn_black.svg \
-    assets/pawn_white.svg \
-    assets/profile.png \
-    assets/queen_black.svg \
-    assets/queen_white.svg \
-    assets/rook_black.svg \
-    assets/rook_white.svg \
-    assets/svg/king_b.svg \
-    assets/svg/king_w.svg \
     qml/Board.qml \
     qml/ChessFigure.qml \
     qml/GameFDialog.qml \

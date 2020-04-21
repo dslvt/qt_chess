@@ -41,9 +41,9 @@ Rectangle {
                     var row = Math.floor(index / 8);
                     var column = index % 8
                     if ((row + column) % 2 == 1)
-                        "#8B4513";
+                        "#e2b87e";
                     else
-                        "#FFE4B5";
+                        "#8f5636";
                 }
             }
         }
