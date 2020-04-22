@@ -4,9 +4,17 @@ import QtQuick.Controls 1.2
 
 import com.znocpmp.chess 1.0
 
-Component{
+Rectangle{
+    id: window
+    signal exitToMainMenu()
+    width: 100
+    height: 1000
     ColumnLayout {
         id: columnLayout1
+        width: 720
+        height: 1280
+        visible: true
+
         anchors.rightMargin: 0
         anchors.bottomMargin: 0
         anchors.leftMargin: 0
@@ -60,7 +68,7 @@ Component{
             Button {
                 id: button5
                 text: "exit"
-                onClicked: Qt.quit()
+                onClicked: window.exitToMainMenu()
             }
         }
 

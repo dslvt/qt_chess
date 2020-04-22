@@ -78,6 +78,9 @@ ApplicationWindow {
     Component{
         id: window
         Window{
+           width: parent.width
+           height: parent.height
+           onExitToMainMenu: stack.pop()
         }
     }
 
