@@ -15,7 +15,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        src/chess.cpp \
         src/chessmodel.cc \
         src/figurebishop.cc \
         src/figureintf.cc \
