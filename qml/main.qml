@@ -12,7 +12,7 @@ ApplicationWindow {
 
     property int squareSize: 70
     property var players: ["127.0.0.1", "192.168.10.1", "192.168.11.2"];
-
+    property bool aiEnabled
     property var images: [
         [
             {'imgPath' : "/images/white_pawn.png"},
@@ -67,6 +67,7 @@ ApplicationWindow {
             text: "Play with bot"
             onClicked: {
                 console.log("Play with bot");
+                aiEnabled = True;
                 logic.clear();
                 logic.newGame();
                 screen.pop(null);
@@ -81,6 +82,7 @@ ApplicationWindow {
         Button {
             text: "New Game"
             onClicked: {
+                aiEnabled = False;
                 console.log("New game");
                 logic.clear();
                 logic.newGame();
@@ -210,76 +212,12 @@ ApplicationWindow {
                             if(result)
                             {
                                 console.log("White made their turn");
-                                l.doAiTurn();
+                                if(aiEnabled)
+                                    l.doAiTurn();
                             }
 
                         }
                     }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: chessHotseatPlacement
-
-        Item {
-            Repeater {
-                model: logic
-                Image {
-                    height: squareSize
-                    width : squareSize
-
-                    x: squareSize * positionX
-                    y: squareSize * positionY
-
-                    source: images[(side == true) ? 0 : 1][type].imgPath
-
-                    MouseArea {
-                        anchors.fill: parent
-                        drag.target: parent
-                        property int startX: 0
-                        property int startY: 0
-                        onPressed: {
-                            console.log("On press: ", parent.x, parent.y);
-                            startX = parent.x;
-                            startY = parent.y;
-                        }
-                        onReleased: {
-                            var  fromX = startX / squareSize;
-                            var fromY = startY / squareSize;
-                            var toX   = (parent.x + mouseX) / squareSize;
-                            var toY   = (parent.y + mouseY) / squareSize;
-                            if (!logic.move(fromX, fromY, toX, toY))
-                            {
-                                parent.x = startX;
-                                parent.y = startY;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    Component {
-        id: newGameScreen
-
-        Item {
-            ColumnLayout{
-                anchors.fill: parent
-
-                Loader {
-                    id: board
-                    sourceComponent: gameBoard
-                }
-                Loader {sourceComponent: chessPlacement}
-
-                RowLayout{
-                    Layout.alignment: Qt.AlignBottom
-
-                    Loader {sourceComponent: buttonSaveGame}
-                    Loader {sourceComponent: buttonEndGame}
                 }
             }
         }
@@ -296,7 +234,7 @@ ApplicationWindow {
                     id: board
                     sourceComponent: gameBoard
                 }
-                Loader {sourceComponent: chessHotseatPlacement}
+                Loader {sourceComponent: chessPlacement}
 
                 RowLayout{
                     Layout.alignment: Qt.AlignBottom
