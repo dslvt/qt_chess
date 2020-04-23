@@ -11,7 +11,7 @@ ApplicationWindow {
     minimumHeight: logic.boardSize * squareSize
 
     property int squareSize: 70
-    property var playes: ["127.0.0.1", "192.168.10.1", "192.168.11.2"];
+    property var players: ["127.0.0.1", "192.168.10.1", "192.168.11.2"];
 
     property var images: [
         [
@@ -70,7 +70,7 @@ ApplicationWindow {
                 logic.clear();
                 logic.newGame();
                 screen.pop(null);
-                screen.push(newHotseatGameScreen);
+                screen.push(newGameScreen);
             }
         }
     }
@@ -85,7 +85,7 @@ ApplicationWindow {
                 logic.clear();
                 logic.newGame();
                 screen.pop(null);
-                screen.push(newGameScreen);
+                screen.push(newHotseatGameScreen);
             }
         }
     }
@@ -145,35 +145,27 @@ ApplicationWindow {
         }
     }
 
-    Component {
-        id: buttonPrevNext
 
-        Item {
-            Button {
-                id: prev
-
-                x: logic.boardSize * squareSize
-                y: squareSize * 2
-                width: (root.width - x) / 2
-                height: squareSize
-                text: "Prev"
-                onClicked: {
-                    logic.prev();
-                    console.log("Prev");
-                }
+    Component{
+        id: buttonPrev
+        Button {
+            id: prev
+            text: "Prev"
+            onClicked: {
+                logic.prev();
+                console.log("Prev");
             }
-            Button {
-                id: next
+        }
+    }
 
-                anchors.left: prev.right
-                anchors.verticalCenter: prev.verticalCenter
-                width: (root.width - logic.boardSize * squareSize) / 2
-                height: squareSize
-                text: "Next"
-                onClicked: {
-                    logic.next();
-                    console.log("Next");
-                }
+    Component{
+        id: buttonNext
+        Button {
+            id: next
+            text: "Next"
+            onClicked: {
+                logic.next();
+                console.log("Next");
             }
         }
     }
@@ -270,15 +262,6 @@ ApplicationWindow {
         }
     }
 
-    Component{
-        id: mainMenu
-        Item{
-            Loader {sourceComponent: buttonHotseat}
-            Loader {sourceComponent: buttonLoadGame}
-            Loader {sourceComponent: buttonNewGame}
-        }
-    }
-
     Component {
         id: newGameScreen
 
@@ -297,7 +280,6 @@ ApplicationWindow {
 
                     Loader {sourceComponent: buttonSaveGame}
                     Loader {sourceComponent: buttonEndGame}
-
                 }
             }
         }
@@ -369,35 +351,68 @@ ApplicationWindow {
         id: historyScreen
 
         Item {
-            Loader {sourceComponent: gameBoard}
-            Loader {sourceComponent: chessPlacement}
-            Loader {sourceComponent: buttonNewGame}
-            Loader {sourceComponent: buttonLoadGame}
-            Loader {sourceComponent: buttonPrevNext}
-        }
-    }
+            ColumnLayout{
+                anchors.fill: parent
+                Loader {
+                    id: board
+                    sourceComponent: gameBoard
+                }
+                Loader {sourceComponent: chessPlacement}
 
-    Component{
-        id: playesList
-        ScrollView{
-            anchors.fill:parent
-            Column{
-                Repeater{
-                    model: root.playes;
-
-                    Label{
-                        text: modelData;
-                        font.pixelSize: 22;
-                    }
+                RowLayout{
+                    Layout.alignment: Qt.AlignBottom
+                    Loader {sourceComponent: buttonNewGame}
+                    Loader {sourceComponent: buttonLoadGame}
+                    Loader {sourceComponent: buttonPrev}
+                    Loader {sourceComponent: buttonNext}
                 }
             }
         }
     }
 
     Component{
-        id: menuTest
+        id: playersList
+        Item{
+            anchors.top:parent.top
+            anchors.left: parent.left
+            anchors.leftMargin: 100
+            anchors.topMargin:  100
+            Component{
+                id: textDelegat
+                Text {
+                    text: root.players[index]
+                    MouseArea {
+                        hoverEnabled: true
+                        anchors.fill: parent
+                        onClicked:  {
+                            console.log("itme");
+                        }
+                        onHoveredChanged: {
+                            font.underline = font.underline == true ? false : true;
+                            font.bold = font.bold == true ? false : true;
+                        }
+                    }
+                }
+            }
+
+
+            ListView{
+                height: 400
+
+                anchors.left: parent.left
+                anchors.top: parent.top
+                anchors.leftMargin: 140
+                anchors.topMargin: 700
+                model: root.players
+                delegate: textDelegat
+            }
+        }
+    }
+
+    Component{
+        id: mainMenu
         ColumnLayout{
-            height: 300
+            height: 600
             anchors.verticalCenterOffset: -317
             anchors.horizontalCenterOffset: 0
             anchors.rightMargin: 0
@@ -443,8 +458,8 @@ ApplicationWindow {
             }
 
             Loader{
-                sourceComponent: playesList
-                Layout.alignment: Qt.AlignCenter
+                sourceComponent: playersList
+                Layout.alignment: Qt.AlignCenter | Qt.AlignBottom
             }
 
         }
@@ -453,6 +468,6 @@ ApplicationWindow {
     StackView {
         id: screen
         anchors.fill: parent
-        initialItem: menuTest
+        initialItem: mainMenu
     }
 }
