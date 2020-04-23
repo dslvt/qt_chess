@@ -67,11 +67,12 @@ ApplicationWindow {
             text: "Play with bot"
             onClicked: {
                 console.log("Play with bot");
-                aiEnabled = True;
+                aiEnabled = true;
                 logic.clear();
                 logic.newGame();
                 screen.pop(null);
-                screen.push(newGameScreen);
+                screen.push(newHotseatGameScreen);
+                console.log("Play with bot: ", aiEnabled)
             }
         }
     }
@@ -82,7 +83,7 @@ ApplicationWindow {
         Button {
             text: "New Game"
             onClicked: {
-                aiEnabled = False;
+                aiEnabled = false;
                 console.log("New game");
                 logic.clear();
                 logic.newGame();
@@ -197,7 +198,7 @@ ApplicationWindow {
                             startY = parent.y;
                         }
                         onReleased: {
-                            var  fromX = startX / squareSize;
+                            var fromX = startX / squareSize;
                             var fromY = startY / squareSize;
                             var toX   = (parent.x + mouseX) / squareSize;
                             var toY   = (parent.y + mouseY) / squareSize;
@@ -208,14 +209,15 @@ ApplicationWindow {
                             {
                                 parent.x = startX;
                                 parent.y = startY;
-                            }
-                            if(result)
-                            {
+                            }else if (result){
                                 console.log("White made their turn");
-                                if(aiEnabled)
+                                console.log(aiEnabled);
+                                console.log(root);
+                                if(root.aiEnabled){
+                                    console.log('ai turn');
                                     l.doAiTurn();
+                                }
                             }
-
                         }
                     }
                 }
