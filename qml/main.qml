@@ -7,8 +7,8 @@ ApplicationWindow {
     id: root
     title: qsTr("Chess")
     visible: true
-    minimumWidth: logic.boardSize * squareSize + squareSize * 4
-    minimumHeight: logic.boardSize * squareSize
+    minimumWidth: logic.boardSize * squareSize
+    minimumHeight: logic.boardSize * squareSize+squareSize
 
     property int squareSize: 70
     property var players: ["127.0.0.1", "192.168.10.1", "192.168.11.2"];
@@ -68,7 +68,7 @@ ApplicationWindow {
             text: "Play with bot"
             onClicked: {
                 console.log("Play with bot");
-                aiEnabled = true;
+                root.aiEnabled = true;
                 logic.clear();
                 logic.newGame();
                 screen.pop(null);
@@ -81,14 +81,14 @@ ApplicationWindow {
         id: buttonHotseat
 
         Button {
-            text: "New Game"
+            text: "Hot seat"
             onClicked: {
-                aiEnabled = false;
-                console.log("New game");
+                root.aiEnabled = false;
+                console.log("Hot seat");
                 logic.clear();
                 logic.newGame();
                 screen.pop(null);
-                screen.push(newHotseatGameScreen);
+                screen.push(newGameScreen);
             }
         }
     }
@@ -99,7 +99,6 @@ ApplicationWindow {
         id: buttonRefreshList
 
         Button {
-            Layout.alignment: Qt.AlignCenter
             text: "Refresh List"
             onClicked: {
                 console.log("Refresh List");
@@ -136,9 +135,6 @@ ApplicationWindow {
         id: buttonBack
 
         Button {
-            x: logic.boardSize * squareSize
-            width: root.width - x
-            height: squareSize
             text: "Back"
             onClicked: {
                 console.log("Back");
@@ -202,6 +198,7 @@ ApplicationWindow {
                             var toX   = (parent.x + mouseX) / squareSize;
                             var toY   = (parent.y + mouseY) / squareSize;
                             var l = logic;
+                            var r = root;
                             var result = l.isWhiteTurn();
 
                             if (!logic.move(fromX, fromY, toX, toY))
@@ -212,7 +209,7 @@ ApplicationWindow {
                             if(result)
                             {
                                 console.log("White made their turn");
-                                if(aiEnabled)
+                                if(r.aiEnabled)
                                     l.doAiTurn();
                             }
 
@@ -224,33 +221,25 @@ ApplicationWindow {
     }
 
     Component {
-        id: newHotseatGameScreen
+        id: newGameScreen
 
-        Item {
             ColumnLayout{
-                anchors.fill: parent
 
-                Loader {
-                    id: board
-                    sourceComponent: gameBoard
-                }
-                Loader {sourceComponent: chessPlacement}
-
+                Loader {id: board; sourceComponent: gameBoard;}
+                Loader {sourceComponent: chessPlacement;}
                 RowLayout{
-                    Layout.alignment: Qt.AlignBottom
-
                     Loader {sourceComponent: buttonSaveGame}
                     Loader {sourceComponent: buttonEndGame}
-
+                    Layout.alignment: Qt.AlignBottom|Qt.AlignHCenter
                 }
             }
-        }
     }
 
     Component {
         id: loadGameScreen
 
-        Item {
+        ColumnLayout {
+            spacing: 0
             Component {
                 id: itemDelegate
                 Text {
@@ -271,134 +260,90 @@ ApplicationWindow {
                     }
                 }
             }
-            ListView {
-                height: 200
-                anchors.left: parent.left
-                anchors.leftMargin: 10
-                anchors.topMargin: 10
-                model: logic.gamesSaved
-                delegate: itemDelegate
-
-                header: Text {text: "Click to choose"}
-                Loader {sourceComponent: buttonBack}
+            Label{
+                text: "Tap to choose"
+                font.pointSize: 24
+                Layout.alignment: Qt.AlignCenter
             }
+
+            Rectangle {
+                height: 200
+                width: 200
+                color: "white"
+                ListView {
+                    anchors.fill: parent
+                    height: 200
+                    model: logic.gamesSaved
+                    delegate: itemDelegate
+                }
+                Layout.alignment: Qt.AlignCenter
+            }
+
+            Loader {sourceComponent: buttonBack; Layout.alignment: Qt.AlignCenter}
         }
     }
 
     Component {
         id: historyScreen
 
-        Item {
             ColumnLayout{
-                anchors.fill: parent
-                Loader {
-                    id: board
-                    sourceComponent: gameBoard
-                }
+                Loader {id: board;sourceComponent: gameBoard}
                 Loader {sourceComponent: chessPlacement}
-
                 RowLayout{
-                    Layout.alignment: Qt.AlignBottom
-                    Loader {sourceComponent: buttonNewGame}
-                    Loader {sourceComponent: buttonLoadGame}
+                    Layout.alignment: Qt.AlignBottom|Qt.AlignHCenter
+                    Loader {sourceComponent: buttonBack}
                     Loader {sourceComponent: buttonPrev}
                     Loader {sourceComponent: buttonNext}
                 }
             }
-        }
+
     }
 
     Component{
         id: playersList
-        Item{
-            anchors.top:parent.top
-            anchors.left: parent.left
-            anchors.leftMargin: 100
-            anchors.topMargin:  100
-            Component{
-                id: textDelegat
-                Text {
-                    text: root.players[index]
-                    MouseArea {
-                        hoverEnabled: true
-                        anchors.fill: parent
-                        onClicked:  {
-                            console.log("itme");
-                        }
-                        onHoveredChanged: {
-                            font.underline = font.underline == true ? false : true;
-                            font.bold = font.bold == true ? false : true;
+
+            Rectangle {
+                height: 200
+                width: 200
+                color: "white"
+                Component{
+                    id: textDelegat
+                    Text {
+                        text: root.players[index]
+                        MouseArea {
+                            hoverEnabled: true
+                            anchors.fill: parent
+                            onClicked:  {
+                                console.log("itme");
+                            }
+                            onHoveredChanged: {
+                                font.underline = font.underline == true ? false : true;
+                                font.bold = font.bold == true ? false : true;
+                            }
                         }
                     }
                 }
+                ListView{
+                    model: root.players
+                    delegate: textDelegat
+                }
             }
-
-
-            ListView{
-                height: 400
-
-                anchors.left: parent.left
-                anchors.top: parent.top
-                anchors.leftMargin: 140
-                anchors.topMargin: 700
-                model: root.players
-                delegate: textDelegat
-            }
-        }
     }
 
     Component{
         id: mainMenu
         ColumnLayout{
-            height: 600
-            anchors.verticalCenterOffset: -317
-            anchors.horizontalCenterOffset: 0
-            anchors.rightMargin: 0
-            anchors.bottomMargin: 508
-            anchors.leftMargin: 0
-            anchors.topMargin: 0
-            anchors.fill: parent
-
-            //width: parent.width
-            clip: false
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.verticalCenter: parent.verticalCenter
-            Layout.alignment: Qt.AlignCenter
-            spacing: 0
-
-
             Label{
                 text: "Chess"
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 64
-                Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+                font.pointSize: 32
+                Layout.alignment:Qt.AlignHCenter
             }
 
-            Loader {
-                sourceComponent: buttonHotseat
-                Layout.alignment: Qt.AlignCenter
-
-            }
-            Loader {
-                sourceComponent: buttonNewGame
-                Layout.alignment: Qt.AlignCenter
-            }
-
-            Loader {
-                sourceComponent: buttonLoadGame
-                Layout.alignment: Qt.AlignCenter
-            }
-
-            Loader{
-                sourceComponent: buttonRefreshList
-                Layout.alignment: Qt.AlignCenter
-            }
-
-            Loader{
-                sourceComponent: playersList
-                Layout.alignment: Qt.AlignCenter | Qt.AlignBottom
-            }
+            Loader {sourceComponent: buttonHotseat;Layout.alignment:Qt.AlignHCenter}
+            Loader {sourceComponent: buttonNewGame;Layout.alignment:Qt.AlignHCenter}
+            Loader {sourceComponent: buttonLoadGame;Layout.alignment:Qt.AlignHCenter}
+            Loader {sourceComponent: playersList;Layout.alignment:Qt.AlignHCenter}
+            Loader {sourceComponent: buttonRefreshList;Layout.alignment:Qt.AlignHCenter}
 
         }
     }
