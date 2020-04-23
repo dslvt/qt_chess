@@ -13,6 +13,7 @@ ApplicationWindow {
     property int squareSize: 70
     property var players: ["127.0.0.1", "192.168.10.1", "192.168.11.2"];
     property bool aiEnabled
+
     property var images: [
         [
             {'imgPath' : "/images/white_pawn.png"},
@@ -67,7 +68,7 @@ ApplicationWindow {
             text: "Play with bot"
             onClicked: {
                 console.log("Play with bot");
-                aiEnabled = True;
+                aiEnabled = true;
                 logic.clear();
                 logic.newGame();
                 screen.pop(null);
@@ -82,7 +83,7 @@ ApplicationWindow {
         Button {
             text: "New Game"
             onClicked: {
-                aiEnabled = False;
+                aiEnabled = false;
                 console.log("New game");
                 logic.clear();
                 logic.newGame();
@@ -109,7 +110,6 @@ ApplicationWindow {
 
     Component {
         id: buttonSaveGame
-
         Button {
             text: "Save game"
             onClicked: {
