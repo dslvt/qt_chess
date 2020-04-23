@@ -402,7 +402,7 @@ ApplicationWindow {
                 anchors.left: parent.left
                 anchors.top: parent.top
                 anchors.leftMargin: 140
-                anchors.topMargin: 700
+                anchors.topMargin: 600
                 model: root.players
                 delegate: textDelegat
             }
