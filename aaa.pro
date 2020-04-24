@@ -14,24 +14,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp \
-        src/chessmodel.cc \
-        src/figurebishop.cc \
-        src/figureintf.cc \
-        src/figureking.cc \
-        src/figureknight.cc \
-        src/figurepawn.cc \
-        src/figurequeen.cc \
-        src/figurerook.cc \
-        src/gameengine.cc \
-        src/historymanager.cc \
-        src/historymodel.cc \
-        src/movepawn.cc \
-        src/movepoints.cc \
-        src/movevectors.cc
+        src/chatworker.cpp \
+        src/database.cpp \
+        src/logic.cpp \
+        src/main.cpp \
+        src/moveslist.cpp \
+        src/tools.cpp
 
 RESOURCES += qml.qrc
 QT+=svg 
+QT += sql
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -45,39 +37,25 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    src/chessmodel.hpp \
-    src/figurebishop.hpp \
-    src/figureintf.hpp \
-    src/figureking.hpp \
-    src/figureknight.hpp \
-    src/figurepawn.hpp \
-    src/figurequeen.hpp \
-    src/figurerook.hpp \
-    src/gameengine.hpp \
-    src/historymanager.hpp \
-    src/historymodel.hpp \
-    src/movepawn.hpp \
-    src/movepoints.hpp \
-    src/movevectors.hpp
+    src/chatworker.h \
+    src/database.h \
+    src/logic.h \
+    src/moveslist.h \ \
+    src/tools.h
 
 
 DISTFILES += \
-    Images/bishop_black.svg \
-    Images/bishop_white.svg \
-    Images/exp.png \
-    Images/king_black.svg \
-    Images/king_white.svg \
-    Images/knight_black.svg \
-    Images/knight_white.svg \
-    Images/pawn_black.svg \
-    Images/pawn_white.svg \
-    Images/profile.png \
-    Images/queen_black.svg \
-    Images/queen_white.svg \
-    Images/rook_black.svg \
-    Images/rook_white.svg \
-    qml/Board.qml \
-    qml/ChessFigure.qml \
-    qml/GameFDialog.qml \
-    qml/History.qml \
-    qml/Window.qml
+    images/black_bishop.png \
+    images/black_king.png \
+    images/black_knight.png \
+    images/black_pawn.png \
+    images/black_queen.png \
+    images/black_rook.png \
+    images/chess_board.jpg \
+    images/white_bishop.png \
+    images/white_king.png \
+    images/white_knight.png \
+    images/white_pawn.png \
+    images/white_queen.png \
+    images/white_rook.png \
+    qml/main.qml
