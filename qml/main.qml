@@ -95,17 +95,6 @@ ApplicationWindow {
 
 
 
-    Component{
-        id: buttonRefreshList
-
-        Button {
-            text: "Refresh List"
-            onClicked: {
-                console.log("Refresh List");
-            }
-        }
-    }
-
 
     Component {
         id: buttonSaveGame
@@ -299,36 +288,85 @@ ApplicationWindow {
 
     }
 
-    Component{
+    Component
+    {
         id: playersList
+        ColumnLayout
+        {
+            Rectangle {
+                width:180
+                height:30
+                radius: 10
+
+                TextInput {
+                    id:nickname
+                    anchors.fill:parent
+                    horizontalAlignment:TextInput.AlignHCenter
+                    verticalAlignment:TextInput.AlignVCenter
+                    validator: RegExpValidator { regExp: /[a-zA-Z]+/ }
+                }
+            }
+            RowLayout{
+                Button {
+                    id:loginButton
+                    text: "Login"
+                    onClicked: {
+                        client.login(nickname.text)
+                        console.log(nickname.text)
+                        enabled = false
+                        disconnectButton.enabled=true;
+                    }
+                }
+                Button {
+                    id:disconnectButton
+                    text: "Disconnect"
+                    enabled: false
+                    onClicked: {
+                        client.disconnect()
+                        enabled = false
+                        loginButton.enabled=true;
+                    }
+                }
+                Layout.alignment:Qt.AlignHCenter
+            }
+
 
             Rectangle {
-                height: 200
-                width: 200
-                color: "white"
-                Component{
-                    id: textDelegat
-                    Text {
-                        text: root.players[index]
-                        MouseArea {
-                            hoverEnabled: true
-                            anchors.fill: parent
-                            onClicked:  {
-                                console.log("itme");
-                            }
-                            onHoveredChanged: {
-                                font.underline = font.underline == true ? false : true;
-                                font.bold = font.bold == true ? false : true;
+                width: 180; height: 200
+                radius: 10
+                ListView {
+                    id:playerModel
+                    model: client
+                    anchors.fill:parent
+                    clip:true
+                    delegate: Component {
+                        Item {
+
+                            width: 180; height: 40
+                            Column {
+                                Text {
+                                    text: '<b>Username:</b> ' + username }
                             }
                         }
                     }
-                }
-                ListView{
-                    model: root.players
-                    delegate: textDelegat
+                    highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+                    focus: true
                 }
             }
-    }
+
+            Button {
+                text: "Refresh List"
+                onClicked: {
+                    playerModel.forceLayout()
+                    console.log(client.rowCount());
+                    console.log("Refresh List");
+                }
+
+                Layout.alignment:Qt.AlignHCenter|Qt.AlignBottom
+            }
+        }
+
+   }
 
     Component{
         id: mainMenu
@@ -343,7 +381,6 @@ ApplicationWindow {
             Loader {sourceComponent: buttonNewGame;Layout.alignment:Qt.AlignHCenter}
             Loader {sourceComponent: buttonLoadGame;Layout.alignment:Qt.AlignHCenter}
             Loader {sourceComponent: playersList;Layout.alignment:Qt.AlignHCenter}
-            Loader {sourceComponent: buttonRefreshList;Layout.alignment:Qt.AlignHCenter}
 
         }
     }
