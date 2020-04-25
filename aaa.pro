@@ -14,11 +14,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        src/chatworker.cpp \
         src/database.cpp \
         src/logic.cpp \
         src/main.cpp \
         src/moveslist.cpp \
+        src/p2pclient.cpp \
         src/tools.cpp
 
 RESOURCES += qml.qrc
@@ -37,10 +37,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    src/chatworker.h \
     src/database.h \
     src/logic.h \
     src/moveslist.h \ \
+    src/p2pclient.h \
     src/tools.h
 
 
