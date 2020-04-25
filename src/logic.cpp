@@ -219,7 +219,7 @@ int                Logic::hitScore(int fromX, int fromY, int toX, int toY) {
 
 bool Logic::isWhiteTurn(void)
 {
-    if (_turn==BLACK)
+    if (_turn==WHITE)
         return true;
     else
         return false;

@@ -13,6 +13,9 @@ ApplicationWindow {
     property int squareSize: 70
     property var players: ["127.0.0.1", "192.168.10.1", "192.168.11.2"];
     property bool aiEnabled
+    property bool iAmHost
+    property bool inLobby
+    property string currentOpponent
 
     property var images: [
         [
@@ -172,6 +175,10 @@ ApplicationWindow {
                     source: images[(side == true) ? 0 : 1][type].imgPath
 
                     MouseArea {
+                        enabled: (!root.inLobby&&(side==true)&&root.aiEnabled)||
+                                 ((root.inLobby)&&(((side==true)&&iAmHost)||
+                                                   ((side!=true)&&!iAmHost)))||
+                                 (!root.inLobby&&!root.aiEnabled)
                         anchors.fill: parent
                         drag.target: parent
                         property int startX: 0
@@ -188,20 +195,24 @@ ApplicationWindow {
                             var toY   = (parent.y + mouseY) / squareSize;
                             var l = logic;
                             var r = root;
-                            var result = l.isWhiteTurn();
+                            var c = client;
+
+                            var whiteTurn = l.isWhiteTurn();
 
                             if (!logic.move(fromX, fromY, toX, toY))
                             {
                                 parent.x = startX;
                                 parent.y = startY;
                             }
-                            if(result)
-                            {
-                                console.log("White made their turn");
-                                if(r.aiEnabled)
+                            if(!whiteTurn && r.aiEnabled)
                                     l.doAiTurn();
-                            }
 
+                            if(r.inLobby)
+                            {
+                                var move = Math.floor(fromX).toString()+ Math.floor(fromY).toString()+  Math.floor(toX).toString()+  Math.floor(toY).toString();
+                                c.sendMove(r.currentOpponent,move);
+                                console.log("sent move "+move);
+                            }
                         }
                     }
                 }
@@ -293,6 +304,11 @@ ApplicationWindow {
         id: playersList
         ColumnLayout
         {
+            Label{
+                text: "Nickname"
+                font.pointSize: 11
+                Layout.alignment: Qt.AlignCenter
+            }
             Rectangle {
                 width:180
                 height:30
@@ -304,18 +320,28 @@ ApplicationWindow {
                     horizontalAlignment:TextInput.AlignHCenter
                     verticalAlignment:TextInput.AlignVCenter
                     validator: RegExpValidator { regExp: /[a-zA-Z]+/ }
+                    onTextChanged:
+                    {
+                        if(!disconnectButton.enabled)
+                            loginButton.enabled = acceptableInput
+                    }
                 }
             }
             RowLayout{
                 Button {
                     id:loginButton
-                    text: "Login"
+                    text: "Host"
+                    enabled: nickname.acceptableInput
                     onClicked: {
-                        client.login(nickname.text)
-                        console.log(nickname.text)
-                        enabled = false
-                        disconnectButton.enabled=true;
+                        if(nickname.acceptableInput)
+                        {
+                            client.login(nickname.text)
+                            console.log(nickname.text)
+                            enabled = false
+                            disconnectButton.enabled=true;
+                        }
                     }
+
                 }
                 Button {
                     id:disconnectButton
@@ -323,14 +349,20 @@ ApplicationWindow {
                     enabled: false
                     onClicked: {
                         client.disconnect()
+                        client.clearPeers()
                         enabled = false
-                        loginButton.enabled=true;
+                        if(nickname.acceptableInput)
+                            loginButton.enabled=true;
                     }
                 }
                 Layout.alignment:Qt.AlignHCenter
             }
 
-
+            Label{
+                text: "Lobbies"
+                font.pointSize: 11
+                Layout.alignment: Qt.AlignCenter
+            }
             Rectangle {
                 width: 180; height: 200
                 radius: 10
@@ -342,24 +374,43 @@ ApplicationWindow {
                     delegate: Component {
                         Item {
 
-                            width: 180; height: 40
-                            Column {
-                                Text {
-                                    text: '<b>Username:</b> ' + username }
+
+                            width: parent.width; height: 40
+                            Text {
+                                id:userText
+                                text: username
+                                anchors.centerIn: parent
+                            }
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: playerModel.currentIndex = index
                             }
                         }
                     }
-                    highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+                    highlight: Rectangle {
+                        color: 'cyan'
+                    }
                     focus: true
                 }
             }
 
             Button {
-                text: "Refresh List"
+                text: "Connect"
+                enabled: nickname.acceptableInput
                 onClicked: {
-                    playerModel.forceLayout()
-                    console.log(client.rowCount());
-                    console.log("Refresh List");
+                    root.aiEnabled = false;
+                    root.iAmHost = false;
+                    root.inLobby = true;
+                    client.setUserName(nickname.text);
+                    var hostname = client.get(playerModel.currentIndex).username;
+                    hostname = hostname.substring(0, hostname.indexOf('('));
+                    console.log("Connecting to:"+hostname);
+                    client.sendHostResponse(hostname);
+                    currentOpponent = hostname;
+                    logic.clear();
+                    logic.newGame();
+                    screen.pop(null);
+                    screen.push(newGameScreen);
                 }
 
                 Layout.alignment:Qt.AlignHCenter|Qt.AlignBottom
@@ -390,4 +441,33 @@ ApplicationWindow {
         anchors.fill: parent
         initialItem: mainMenu
     }
+
+    Connections {
+        target: client
+        onReceivedHostResponse: {
+            root.aiEnabled = false;
+            root.iAmHost = true;
+            root.inLobby = true;
+            currentOpponent = responder;
+            console.log(responder+ " connected to your game");
+            logic.clear();
+            logic.newGame();
+            screen.pop(null);
+            screen.push(newGameScreen);
+        }
+    }
+
+    Connections {
+        target: client
+        onReceivedOpponentMove: {
+            console.log("NEW MOVE"+ move);
+            var fromX = parseInt(move.charAt(0));
+            var fromY = parseInt(move.charAt(1));
+            var toX = parseInt(move.charAt(2));
+            var toY = parseInt(move.charAt(3));
+            console.log("received new move: " +fromX+" "+fromY+" "+toX+" "+toY);
+            logic.move(fromX, fromY, toX, toY)
+        }
+    }
+
 }
