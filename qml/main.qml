@@ -77,7 +77,8 @@ ApplicationWindow {
                 logic.clear();
                 logic.newGame();
                 screen.pop(null);
-                screen.push(newGameScreen);
+                screen.push(newHotseatGameScreen);
+                console.log("Play with bot: ", aiEnabled)
             }
         }
     }
@@ -187,7 +188,7 @@ ApplicationWindow {
                             startY = parent.y;
                         }
                         onReleased: {
-                            var  fromX = startX / squareSize;
+                            var fromX = startX / squareSize;
                             var fromY = startY / squareSize;
                             var toX   = (parent.x + mouseX) / squareSize;
                             var toY   = (parent.y + mouseY) / squareSize;
