@@ -290,7 +290,13 @@ ApplicationWindow {
                 ColumnLayout{
                     Layout.alignment: Qt.AlignBottom|Qt.AlignHCenter
                     Loader {sourceComponent: sliderHistory}
-                    Loader {sourceComponent: buttonBack}
+                    RowLayout{
+                        Layout.alignment: Qt.AlignBottom|Qt.AlignHCenter
+                        Loader {sourceComponent: buttonNewGame}
+                        Loader {sourceComponent: buttonLoadGame}
+                        Loader {sourceComponent: buttonBack}
+                    }
+
                 }
             }
     }
