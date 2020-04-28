@@ -1,7 +1,8 @@
 import QtQuick 2.4
-import QtQuick.Controls 1.3
 import QtQuick.Layouts 1.1
 import QtQuick.Dialogs 1.2
+import QtQuick.Controls 2.14
+
 
 ApplicationWindow {
     id: root
@@ -16,6 +17,7 @@ ApplicationWindow {
     property bool iAmHost
     property bool inLobby
     property string currentOpponent
+    property var prevMoveCount: 1
 
     property var images: [
         [
@@ -96,9 +98,6 @@ ApplicationWindow {
         }
     }
 
-
-
-
     Component {
         id: buttonSaveGame
         Button {
@@ -134,7 +133,6 @@ ApplicationWindow {
             }
         }
     }
-
 
     Component{
         id: buttonPrev
@@ -289,14 +287,67 @@ ApplicationWindow {
             ColumnLayout{
                 Loader {id: board;sourceComponent: gameBoard}
                 Loader {sourceComponent: chessPlacement}
-                RowLayout{
+                ColumnLayout{
                     Layout.alignment: Qt.AlignBottom|Qt.AlignHCenter
+                    Loader {sourceComponent: sliderHistory}
                     Loader {sourceComponent: buttonBack}
-                    Loader {sourceComponent: buttonPrev}
-                    Loader {sourceComponent: buttonNext}
+                }
+            }
+    }
+
+    Component {
+        id: sliderHistory
+        Slider {
+            id: hSlider
+            width: root.width*0.8
+            from: 1
+            value: 1
+            to: logic.getSteps()
+            snapMode: Slider.SnapAlways
+            onMoved: {
+                if(prevMoveCount != Math.floor(valueAt(position))){
+                    if(prevMoveCount - Math.floor(valueAt(position)) > 0){
+                        logic.prev();
+                    }else{
+                        logic.next();
+                    }
+                    prevMoveCount = Math.floor(valueAt(position))
                 }
             }
 
+            SequentialAnimation{
+                id: ani
+                running: true
+                NumberAnimation{
+                    to: logic.getSteps()
+                    duration: 500*logic.getSteps()
+                    target: hSlider
+                    property: 'value'
+                    from: 1
+                }
+                ScriptAction{
+                    script: {
+                        sliderTimer.stop();
+                    }
+                }
+            }
+            Timer{
+                id: sliderTimer
+                interval: 500;
+                running: true;
+                repeat: true;
+                onTriggered: {
+                    if(prevMoveCount != Math.floor(valueAt(hSlider.position))){
+                        if(prevMoveCount - Math.floor(valueAt(hSlider.position)) > 0){
+                            logic.prev();
+                        }else{
+                            logic.next();
+                        }
+                        prevMoveCount = Math.floor(valueAt(hSlider.position))
+                        }
+                }
+            }
+        }
     }
 
     Component

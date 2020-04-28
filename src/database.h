@@ -46,6 +46,7 @@ public:
     bool            getRecord(int32_t &x, int32_t &y, bool flag);
     bool            getFigureIndexRecord(int32_t &figureIndex, bool flag);
     bool            isRecordOfHIt(void);
+    int32_t			getGameSteps(void);
 
 private:
     void            _createTable(void);

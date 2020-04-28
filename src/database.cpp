@@ -56,6 +56,10 @@ int32_t DataBase::tablesSize(void) {
     return (_chessDatabase.tables().size());
 }
 
+int32_t DataBase::getGameSteps(void){
+    return _countRows();
+}
+
 QString DataBase::getTableName(int32_t index) {
     QString name(_chessDatabase.tables().at(index).toLocal8Bit().constData());
 

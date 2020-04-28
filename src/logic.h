@@ -63,6 +63,7 @@ public:
     Q_INVOKABLE bool          isWhiteTurn(void);
     Q_INVOKABLE bool          isValidMove(int fromX, int fromY, int toX, int toY);
     Q_INVOKABLE void          doAiTurn(void);
+    Q_INVOKABLE int 		  getSteps(void);
 
     int pieceScore(unsigned);
     int hitScore(int fromX, int fromY, int toX, int toY);

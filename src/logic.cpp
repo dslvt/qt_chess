@@ -299,6 +299,10 @@ void                Logic::prev(void) {
     }
 }
 
+int Logic::getSteps(void){
+    return db->getGameSteps();
+}
+
 int                 Logic::rowCount(const QModelIndex & ) const {
     return (impl->figures.size());
 }
