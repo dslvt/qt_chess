@@ -306,6 +306,7 @@ ApplicationWindow {
         id: sliderHistory
         Slider {
             id: hSlider
+            enabled: !logic.getSteps() === 0
             width: root.width*0.8
             from: 1
             value: 1
