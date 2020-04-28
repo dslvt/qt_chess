@@ -39,7 +39,7 @@ ApplicationWindow {
         ]
     ]
     //color: "#A1A0CE"
-    color: "#FFFFFF"
+    color: "#DCDCDC"
 
     Component {
         id: gameBoard
