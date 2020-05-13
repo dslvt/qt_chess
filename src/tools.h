@@ -10,7 +10,6 @@ public:
     static QString toIPv4(quint32 arg);
     static QString getLocalIP();
     static bool vaildNickName(QString name);
-    static bool getTransformFileSize(qint64 originNumber,float& newNumber,QString& newUnit);
 };
 
 #endif // TOOLS_H
